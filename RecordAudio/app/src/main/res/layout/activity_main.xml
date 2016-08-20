@@ -26,6 +26,9 @@
        android:orientation="vertical"
        android:gravity="center_vertical">
 
+
+
+
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
@@ -62,6 +65,14 @@
            android:text="Enviar"
            android:id="@+id/btn_enviar"
            android:onClick="Enviar"/>
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text=""
+           android:textSize="24dp"
+           android:id="@+id/tv_caminho"
+           android:textStyle="bold"/>
 
 
 

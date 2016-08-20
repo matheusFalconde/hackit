@@ -9,15 +9,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
 
+import java.io.File;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private MediaRecorder mediaRecorder;
-    private String outputFile =null;
+    private String outputFile = "";
     private Button btnGravar,btnParar;
+    private TextView tvCaminho;
+    private String fileName = "audio";
 
 
     @Override
@@ -27,27 +33,54 @@ public class MainActivity extends AppCompatActivity {
 
         btnParar = (Button)findViewById(R.id.btn_stop);
         btnGravar = (Button)findViewById(R.id.btn_gravar);
+        tvCaminho = (TextView)findViewById(R.id.tv_caminho);
 
        // btnGravar.setEnabled(false);
         btnParar.setEnabled(false);
 
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/audio.wav";
 
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_WB);
-        mediaRecorder.setOutputFile(outputFile);
+
 
 
     }
+
+
 
     public void Gravar(View view)
     {
         try
         {
+
+
+            File folder = new File(Environment.getExternalStorageDirectory().toString()+"/teste");
+            folder.mkdirs();
+
+            if (folder.isDirectory()){
+
+                File[] files = folder.listFiles();
+
+                if (files.length > 0){
+                    fileName = "audio" + files.length;
+                }
+            }
+
+            outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/teste/"+fileName+".wav";
+
+
+            mediaRecorder = new MediaRecorder();
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_WB);
+            mediaRecorder.setOutputFile(outputFile);
+
+            tvCaminho.setText(outputFile);
+
+
+
             mediaRecorder.prepare();
             mediaRecorder.start();
+
+
 
             btnGravar.setEnabled(false);
             btnParar.setEnabled(true);
